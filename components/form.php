@@ -16,7 +16,7 @@
         <div class="container">
             <div class="header-top">
                 <a class="logo" href="/index.php">
-                    <h1>MAGAZINE</h2>
+                    <h1>MAGAZINE</h1>
                 </a>
                 <div class="header-nav">
                     <nav>
@@ -38,44 +38,6 @@
         </div>
     </header>
 
-    <!-- 3 <div class="container">
-        <section class="forma">
-            <form class="form">
-                <h2 class="form-title">Авторизация</h2>
-                <div class="input-block">
-                    <input class="input" type="text" placeholder="Логин">
-                    <input class="input" type="password" placeholder="Пароль">
-
-                </div>
-                <button class="login-button">Войти</button>
-                <p class="form-support">
-                    <a class="forget-password" href="#">Забыли пароль?</a>
-                    |
-                    <a class="registration" href="#">Регистрация</a>
-                </p>
-            </form>
-        </section>
-    </div> -->
-
-    <!-- 1 <div class="container">
-        <section class="forma">
-            <form class="form">
-                <h2 class="form-title">Авторизация</h2>
-                <div class="input-block">
-                    <h3 class="input-title">Логин</h3>
-                    <input class="input" type="text">
-                    <h3 class="input-title">Пароль</h3>
-                    <input class="input" type="password">
-                    <button class="login-button">Войти</button>
-                    <p class="form-support">
-                        <a class="forget-password" href="#">Забыли пароль?</a> 
-                        | 
-                        <a class="registration" href="#">Регистрация</a></p>
-                </div>
-            </form>
-        </section>
-    </div> -->
-
     <div class="container">
         <section class="forma">
             <form class="form">
@@ -85,7 +47,6 @@
                     <input class="input" type="text">
                     <h3 class="input-title">Пароль</h3>
                     <input class="input" type="password">
-
                 </div>
                 <button class="login-button">Войти</button>
                 <p class="form-support">

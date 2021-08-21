@@ -16,7 +16,7 @@
         <div class="container">
             <div class="header-top">
                 <a class="logo" href="/index.php">
-                    <h1>MAGAZINE</h2>
+                    <h1>MAGAZINE</h1>
                 </a>
                 <div class="header-nav">
                     <nav>
@@ -56,7 +56,7 @@
 
         </section>
     </div>
-    
+
     <script src="/scripts/basket.js"></script>
     <script src="/scripts/quantity.js"></script>
 </body>
