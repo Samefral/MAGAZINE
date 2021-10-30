@@ -12,50 +12,49 @@
 
 <body class="page">
 
-    <header class="page-header">
+    <header class="page__header">
         <div class="container">
-            <div class="header-top">
-                <a class="logo" href="/index.php">
-                    <h1>MAGAZINE</h1>
+            <nav class="header-nav">
+
+                <a class="header-nav__logo logo" href="/index.php">
+                    <h1 class="logo__title">MAGAZINE</h1>
                 </a>
-                <div class="header-nav">
-                    <nav>
-                        <ul class="header-nav-list">
-                            <a href="/index.php" class="nav-link">
-                                <li>Главная</li>
-                            </a>
-                            <a href="/components/form.php" class="nav-link">
-                                <li>Личный кабинет</li>
-                            </a>
-                            <a href="/basket.php" class="nav-link basket nav-current" id="basket">
-                                <li>Корзина</li>
-                                <span class="basket-items-quantity hidden"></span>
-                            </a>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+
+                <ul class="header-nav__list">
+                    <li class="header-nav__item">
+                        <a href="index.php" class="header-nav__link">Главная</a>
+                    </li>
+                    <li class="header-nav__item">
+                        <a href="profile.php" class="header-nav__link">Личный кабинет</a>
+                    </li>
+                    <li class="header-nav__item header-nav__item--basket">
+                        <a href="basket.php" class="header-nav__link header-nav__link--current">Корзина</a>
+                        <span class="basket-items-quantity hidden"></span>
+                    </li>
+                </ul>
+
+            </nav>
         </div>
     </header>
 
-    <div class="container">
-        <section class="order">
 
-            <div class="order-block">
-                <h1 class="order-title">Заказ доставки</h1>
-                <ul class="order-list"></ul>
-                <div class="order-info">
-                    <div class="mistake-message">
-                        <span class="mistake-icon">X</span>
-                        <span class="mistake-text">Войдите в аккаунт</span>
+    <section class="page__basket basket">
+        <div class="container">
+            <div class="basket__panel order-table">
+                <h1 class="order-table__title">Заказ доставки</h1>
+                <ul class="order-table__list order-list"></ul>
+                <div class="order-table__order-info">
+                    <div class="order-table__mistake-message">
+                        <span class="order-table__mistake-icon">X</span>
+                        <span class="order-table__mistake-text">Войдите в аккаунт</span>
                     </div>
                     <button class="order-button">Заказать</button>
-                    <span class="order-cost"></span>
+                    <span class="order-table__order-cost">Общая стоимость: </span>
                 </div>
             </div>
+        </div>
+    </section>
 
-        </section>
-    </div>
 
     <script src="/scripts/basket.js"></script>
     <script src="/scripts/quantity.js"></script>

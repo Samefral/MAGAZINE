@@ -1,15 +1,19 @@
 let itemId = document.querySelector(".data-php-id").getAttribute("data-id");
-let itemPrice = document
-  .querySelector(".data-php-price")
-  .getAttribute("data-price");
+let itemPrice = document.querySelector(".data-php-price").getAttribute("data-price");
 let itemDiscountProcent = document.querySelector(".data-php-procent").getAttribute("data-procent");
-let itemName = document.querySelector(".item-name").textContent;
-let itemImg = document.querySelector(".img-info").src;
+let itemName = document.querySelector(".item__name").textContent;
+let itemImg = document.querySelector(".item__img").src;
 let itemCount = 1;
 let buyButton = document.querySelector(".buy-button");
-let itemAddedCount = document.querySelector(".added-items");
+let itemAddedCount = document.querySelector(".item__added-info");
+let itemIsNew = false;
+
 if (localStorage.getItem(itemId)) {
   itemAddedCount.textContent = "Добавлено: " + JSON.parse(localStorage.getItem(itemId)).count + " шт.";
+}
+
+if (document.querySelector(".item--new")) {
+   itemIsNew = true;
 }
 
 let item = {
@@ -18,7 +22,8 @@ let item = {
   img: itemImg,
   count: itemCount,
   price: itemPrice,
-  procent: itemDiscountProcent
+  procent: itemDiscountProcent,
+  isnew: itemIsNew
 };
 
 buyButton.addEventListener("click", function () {
@@ -32,7 +37,8 @@ buyButton.addEventListener("click", function () {
       name: itemName,
       count: element.count,
       price: itemPrice * element.count,
-      procent: itemDiscountProcent
+      procent: itemDiscountProcent,
+      isnew: itemIsNew
     };
     localStorage.setItem(itemId, item);
   } else if (localStorage.getItem(itemId) && element.count === 50) {
@@ -41,6 +47,8 @@ buyButton.addEventListener("click", function () {
   }
   localStorage.setItem(itemId, JSON.stringify(item));
   localStorage.setItem(itemId + ": startPrice", itemPrice);
+
+  // FLICKER ON CLICK
   let flicker = document.createElement("div");
   flicker.className = "flicker";
   buyButton.appendChild(flicker);

@@ -12,51 +12,57 @@
 
 <body class="page">
 
-    <header class="page-header">
+    <header class="page__header">
         <div class="container">
-            <div class="header-top">
-                <a class="logo" href="/index.php">
-                    <h1>MAGAZINE</h1>
+            <nav class="header-nav">
+
+                <a class="header-nav__logo logo" href="/index.php">
+                    <h1 class="logo__title">MAGAZINE</h1>
                 </a>
-                <div class="header-nav">
-                    <nav>
-                        <ul class="header-nav-list">
-                            <a href="/index.php" class="nav-link">
-                                <li>Главная</li>
-                            </a>
-                            <a href="/components/form.php" class="nav-link nav-current">
-                                <li>Личный кабинет</li>
-                            </a>
-                            <a href="/basket.php" class="nav-link basket">
-                                <li>Корзина</li>
-                                <span class="basket-items-quantity hidden"></span>
-                            </a>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+
+                <ul class="header-nav__list">
+                    <li class="header-nav__item">
+                        <a href="index.php" class="header-nav__link">Главная</a>
+                    </li>
+                    <li class="header-nav__item">
+                        <a href="profile.php" class="header-nav__link header-nav__link--current">Личный кабинет</a>
+                    </li>
+                    <li class="header-nav__item header-nav__item--basket">
+                        <a href="basket.php" class="header-nav__link">Корзина</a>
+                        <span class="basket-items-quantity hidden"></span>
+                    </li>
+                </ul>
+
+            </nav>
         </div>
     </header>
 
-    <div class="container">
-        <section class="forma">
-            <form class="form">
-                <h2 class="form-title">Авторизация</h2>
-                <div class="input-block">
-                    <h3 class="input-title">Логин</h3>
-                    <input class="input" type="text">
-                    <h3 class="input-title">Пароль</h3>
-                    <input class="input" type="password">
+
+    <section class="page__authorization authorization">
+        <div class="container">
+            <form class="authorization__form form">
+                <h2 class="form__title">Авторизация</h2>
+                <div class="form__block">
+                    <div class="form__input-block">
+                        <label class="form__input-label" for="login">Логин</label>
+                        <input class="form__input" type="text" id="login">
+                    </div>
+                    <div class="form__input-block">
+                        <label class="form__input-label" for="password">Пароль</label>
+                        <input class="form__input" type="password" id="password">
+                    </div>
+
                 </div>
                 <button class="login-button">Войти</button>
-                <p class="form-support">
-                    <a class="forget-password" href="#">Забыли пароль?</a>
+                <div class="form__support form-support">
+                    <a class="form-support__link" href="#">Забыли пароль?</a>
                     |
-                    <a class="registration" href="#">Регистрация</a>
-                </p>
+                    <a class="form-support__link" href="#">Регистрация</a>
+                </div>
             </form>
-        </section>
-    </div>
+        </div>
+    </section>
+
 
     <script src="/scripts/quantity.js"></script>
     <script src="/scripts/form.js"></script>
