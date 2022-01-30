@@ -1,4 +1,6 @@
 <?php
+$total_products_length = count(get_products());
+
 function get_products()
 {
   return [
@@ -34,7 +36,7 @@ function get_products()
       'img_url' => '/images/geforce_rtx_2060.jpg',
       'discount' => 7000,
       'price' => 42000,
-      'is_new' => true,
+      'is_new' => false,
       'is_last' => true,
       'type' => 'Ndivia',
     ],
@@ -43,7 +45,7 @@ function get_products()
       'img_url' => '/images/geforce_gtx_1660_super.jpg',
       'discount' => 0,
       'price' => 18000,
-      'is_new' => false,
+      'is_new' => true,
       'is_last' => true,
       'type' => 'Nvidia',
     ],
@@ -170,7 +172,6 @@ function get_filters()
     ],
   ];
 }
-
 
 function get_product_attribute($id, $attr)
 {

@@ -109,7 +109,7 @@
   padding: 10px 15px;
   border: 1px solid white;
   letter-spacing: 1px;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 .header-nav__link:hover {
   background-color: white;
@@ -208,12 +208,12 @@
   background-color: transparent;
   color: white;
   border: 1.5px solid blueviolet;
-  transition: background-color 0.1s, box-shadow 0.3s, text-shadow 0.3s, color 0.1s, opacity 0.2s;
+  transition: background-color 0.4s, box-shadow 0.3s, text-shadow 0.3s, color 0.1s, opacity 0.2s;
 }
 .filter-list__link:hover {
   background-color: white;
   color: black;
-  box-shadow: 0px 0px 8px 4px silver;
+  box-shadow: 0px 0px 4px 2px silver, inset 0px 0px 2px 1px black;
   text-shadow: 0px 0px 1px black;
 }
 .filter-list__link:active {
@@ -222,7 +222,7 @@
 .filter-list__link--current {
   background-color: white;
   color: black;
-  box-shadow: 0px 0px 6px 3px silver, inset 0px 0px 4px 2px black;
+  box-shadow: 0px 0px 6px 3px silver, inset 0px 0px 2px 1px black;
   text-shadow: 0px 0px 1px black;
 }
 @media (max-width: 860px) {
@@ -555,7 +555,7 @@
   display: inline-block;
   width: 120px;
   height: 50px;
-  transition: box-shadow 0.3s, background-color 0.3s, color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.2s, text-shadow 0.2s, color 0.1s, opacity 0.2s, border-color 0.5s;
   text-align: center;
   font-weight: bold;
   cursor: pointer;
@@ -563,11 +563,12 @@
 .buy-button:hover {
   color: #353535;
   background-color: #fff;
-  box-shadow: 0px 0px 10px 8px indigo;
+  box-shadow: 0px 0px 7px 4px indigo;
   border-color: indigo;
 }
 .buy-button:active {
-  opacity: 0.8;
+  opacity: 0.7;
+  transform: scale(0.97);
 }
 .flicker {
   display: inline-block;

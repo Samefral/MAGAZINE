@@ -8,5 +8,6 @@ $price = get_product_price($id);
 $discount = get_product_discount($id);
 $price_with_discount = $price - $discount;
 $discount_procent = round(100 - ($price - $discount) / $price * 100);
+require('components/header.php');
 require('components/product_info.php');
 ?>

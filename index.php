@@ -5,7 +5,6 @@ require('products_db.php');
 $type = $_GET['product_type'] ?: 'all';
 $filters = get_filters();
 $items = get_products();
-$product_length = count(get_products());
 
 /* CHEAP SORT
 function sort_by_price($product_1, $product_2) {
@@ -31,21 +30,21 @@ function sort_by_price($product_1, $product_2) {
 // FILTER-AMD
 function filter_amd($item)
 {
-  return $item['type'] === 'Amd';
+    return $item['type'] === 'Amd';
 }
 $amd_products = array_filter($items, 'filter_amd');
 
 // FILTER-NVIDIA
 function filter_nvidia($item)
 {
-  return $item['type'] === 'Nvidia';
+    return $item['type'] === 'Nvidia';
 }
 $nvidia_products = array_filter($items, 'filter_nvidia');
 
 // FILTER-NEW
 function filter_new($item)
 {
-  return $item['is_new'];
+    return $item['is_new'];
 }
 $new_products = array_filter($items, 'filter_new');
 
@@ -56,8 +55,8 @@ $offset = ($page - 1) * $limit;
 
 // PAGINATOR ALL
 $products_on_page = array_slice($items, $offset, $limit, true);
-$products_quantity = count($items);
-$pages = $products_quantity / $limit;
+// $products_quantity = count($items);
+$pages = $total_products_length / $limit;
 $pages_total = ceil($pages);
 
 // PAGINATOR-AMD
@@ -78,5 +77,6 @@ $products_new_quantity = count($new_products);
 $pages_new = $products_new_quantity / $limit;
 $pages_new_total = ceil($pages_new);
 
+require('components/header.php');
 require('components/products_list.php');
 ?>
