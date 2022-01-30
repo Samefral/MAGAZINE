@@ -19,12 +19,10 @@ switch(window.location.pathname) {
 
 let counting = function () {
     let quantity = 0;
-    for (let i = 0; i <= localStorage.getItem('totalProductsQuantity'); i++) {
+    for (let i = 0; i <= totalProductsQuantity; i++) {
         let raw = localStorage.getItem(i);
         let item = JSON.parse(raw);
-         console.log(item);
         if (item !== null) {
-           
             quantity += item.quantity;
         }
     }
