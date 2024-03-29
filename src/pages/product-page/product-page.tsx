@@ -1,22 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchProductByIdAction } from '../../store/api-actions';
-// import { AppRoute } from '../../const';
-// import { getCamera, getCameraDataLoadingStatus } from '../../store/cameras-data/selectors';
 import { getProduct } from '../../store/videocards-data/selectors';
 import { getDiscountPercent, formatPrice } from '../../utils/utils';
-import LoadingScreen from '../loading-screen/loading-screen';
 import { Product } from '../../types/product';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function ProductPage(): JSX.Element {
-  const [isFlicker, setIsFlicker] = useState(false);
-  const navigate = useNavigate();
   const product = useAppSelector(getProduct);
-  // const isCameraDataLoading = useAppSelector(getCameraDataLoadingStatus);
 
   const addToCartBtnRef = useRef<HTMLButtonElement>(null);
+  const addToCartBtnElem = addToCartBtnRef.current;
 
   const productId = Number(useParams().id);
 
@@ -32,17 +28,24 @@ function ProductPage(): JSX.Element {
 
   const productInStorage = JSON.parse(localStorage.getItem(String(product.id)) as string) as Product;
 
-  const flicker = (btn: HTMLButtonElement) => {
-    setIsFlicker(true);
+  const cartQuantityDisplayElem = document.querySelector('.basket-items-quantity') as HTMLSpanElement;
+  const itemAddedInfoDisplayElem = document.querySelector('.item__added-info') as HTMLParagraphElement;
+
+  const updateQuantityDisplayInfo = (updatedItem: Product, cartQuantity: number) => {
+    cartQuantityDisplayElem.textContent = String(Number(cartQuantity) + 1);
+    itemAddedInfoDisplayElem.textContent = `Добавлено: ${ updatedItem.quantityInCart ?? 1 } шт.`;
+    if (Number(cartQuantityDisplayElem.textContent) === 1) {
+      cartQuantityDisplayElem.classList.remove('hidden');
+    }
+  };
+
+  const flicker = (btn: HTMLButtonElement, updatedItem: Product, cartQuantity: number) => {
     const flickerEl = document.createElement('div');
     flickerEl.className = 'flicker';
     btn.appendChild(flickerEl);
     setTimeout(() => {
       flickerEl.remove();
-      setIsFlicker(false);
-      if (!isFlicker) {
-        navigate('');
-      }
+      updateQuantityDisplayInfo(updatedItem, cartQuantity);
     }, 850);
   };
 
@@ -50,27 +53,25 @@ function ProductPage(): JSX.Element {
     const itemInCart = localStorage.getItem(String(product.id));
     const cartQuantity = Number(localStorage.getItem('cart-quantity'));
 
-    if (!cartQuantity) {
-      localStorage.setItem('cart-quantity', '1');
-    } else {
-      localStorage.setItem('cart-quantity', String(cartQuantity + 1));
-    }
+    if (addToCartBtnElem) {
 
-    if (itemInCart) {
-      const itemObj = JSON.parse(itemInCart) as Product;
-      const updatedItem = {
-        ...itemObj,
-        quantityInCart: itemObj.quantityInCart += 1
-      };
-      localStorage.setItem(String(product.id), JSON.stringify(updatedItem));
-    } else {
-      localStorage.setItem(String(product.id),
-        JSON.stringify({...product, quantityInCart: 1})
-      );
-    }
+      if (itemInCart) {
+        const itemObj = JSON.parse(itemInCart) as Product;
+        const updatedItem = {
+          ...itemObj,
+          quantityInCart: itemObj.quantityInCart += 1
+        };
+        localStorage.setItem(String(product.id), JSON.stringify(updatedItem));
+        flicker(addToCartBtnElem, updatedItem, cartQuantity);
+      } else {
+        localStorage.setItem(String(product.id),
+          JSON.stringify({...product, quantityInCart: 1})
+        );
 
-    if (addToCartBtnRef.current) {
-      flicker(addToCartBtnRef.current);
+        flicker(addToCartBtnElem, {...product, quantityInCart: 1}, cartQuantity);
+      }
+
+      localStorage.setItem('cart-quantity', String(cartQuantity + 1) ?? '1');
     }
 
   };
