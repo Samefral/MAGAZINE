@@ -7,11 +7,21 @@ export enum AppRoute {
 }
 
 export enum APIRoute {
-  Products = '/products'
+  Products = '/products',
+  OrderPost = '/orders',
+  CouponVerification = '/coupons'
 }
 
 export enum NameSpace {
   VideocardsData = 'VIDEOCARDS_DATA',
+  CartData = 'CART_DATA',
+}
+
+export enum OrderStatus {
+  Null = 'null',
+  Pending = 'pending',
+  Fulfilled = 'fulfilled',
+  Rejected = 'rejected',
 }
 
 export const ProductsFilters = {

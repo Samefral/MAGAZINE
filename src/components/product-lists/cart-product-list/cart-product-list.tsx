@@ -1,26 +1,19 @@
-import { Product } from '../../../types/product';
+import { useAppSelector } from '../../../hooks';
+import { getCartProducts, getTotalCartPrice } from '../../../store/cart-data/selectors';
+// import { Products } from '../../../types/product';
 import { formatPrice } from '../../../utils/utils';
 import CartProduct from './cart-product/cart-product';
 
 function CartProductList(): JSX.Element {
-  const items = {...localStorage};
-  const products = Object.values(items).map((product: string) => JSON.parse(product) as Product);
-  // eslint-disable-next-line no-console
-  console.log(Object.values(items));
-  products.pop();
-
-  let totalPrice = 0;
-
-  products.forEach((product) => {
-    totalPrice += (product.price - product.discount) * product.quantityInCart;
-  });
+  const cartProducts = useAppSelector(getCartProducts);
+  const cartTotalPrice = useAppSelector(getTotalCartPrice);
 
   return (
-    products.length === 0 ? <p>Корзина пуста</p> :
+    cartProducts.length === 0 ? <p style={{marginTop: '51px', fontSize: '23px'}}>Корзина пуста</p> :
       <div>
         <ul className="order-table__list order-list">
-          {products.map((product) =>
-            <CartProduct key={product.id} product={product}/>
+          {cartProducts.map((product) =>
+            <CartProduct key={product.id} product={product} />
           )}
         </ul>
         <div className="order-table__order-info">
@@ -29,7 +22,7 @@ function CartProductList(): JSX.Element {
             <span className="order-table__mistake-text">Войдите в аккаунт</span>
           </div>
           <button className="order-button">Заказать</button>
-          <span className="order-table__order-cost">Общая стоимость: {formatPrice(totalPrice)}</span>
+          <span className="order-table__order-cost">Общая стоимость: {formatPrice(cartTotalPrice)}</span>
         </div>
       </div>
   );

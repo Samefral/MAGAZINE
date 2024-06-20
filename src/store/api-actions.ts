@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { APIRoute } from '../const';
 import { Product, Products } from '../types/product';
+import { PostOrderData } from '../types/order';
 
 
 export const fetchProductsAction = createAsyncThunk<Products, undefined, {
@@ -44,14 +45,14 @@ export const updateProductByIdAction = createAsyncThunk<Product, Product, {
   },
 );
 
-// export const postOrderAction = createAsyncThunk<string, PostOrderData, {
-//   dispatch: AppDispatch;
-//   state: State;
-//   extra: AxiosInstance;
-// }>(
-//   'data/postOrder',
-//   async ({camerasIds, coupon}, {extra: api}) => {
-//     const {data} = await api.post<string>(APIRoute.OrderPost, {camerasIds, coupon});
-//     return data;
-//   }
-// );
+export const postOrderAction = createAsyncThunk<string, PostOrderData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postOrder',
+  async ({productsIds, coupon}, {extra: api}) => {
+    const {data} = await api.post<string>(APIRoute.OrderPost, {productsIds, coupon});
+    return data;
+  }
+);

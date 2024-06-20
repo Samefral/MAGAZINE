@@ -1,11 +1,12 @@
-import classNames from 'classnames';
 import { NavLink, useParams } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks';
+import { getTotalCartProducts } from '../../../store/cart-data/selectors';
 import { AppRoute } from '../../../const';
 
 function Navigation(): JSX.Element {
   const { page } = useParams();
   const activeClassName = 'header-nav__link--current';
-  const cartItemsQuantity = localStorage.getItem('cart-quantity');
+  const totalCartProducts = useAppSelector(getTotalCartProducts);
 
   return (
     <nav className="header-nav">
@@ -30,7 +31,7 @@ function Navigation(): JSX.Element {
           >
             Корзина
           </NavLink>
-          <span className={classNames('basket-items-quantity', !cartItemsQuantity && 'hidden')}>{cartItemsQuantity}</span>
+          {totalCartProducts > 0 ? <span className="basket-items-quantity">{totalCartProducts}</span> : null}
         </li>
       </ul>
 

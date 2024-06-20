@@ -3,16 +3,17 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { fetchProductByIdAction } from '../../store/api-actions';
+import { addProductToCart, } from '../../store/cart-data/cart-data';
 import { getProduct } from '../../store/videocards-data/selectors';
 import { getDiscountPercent, formatPrice } from '../../utils/utils';
-import { Product } from '../../types/product';
+// import { Product, Products } from '../../types/product';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function ProductPage(): JSX.Element {
   const product = useAppSelector(getProduct);
 
   const addToCartBtnRef = useRef<HTMLButtonElement>(null);
-  const addToCartBtnElem = addToCartBtnRef.current;
+  const addToCartBtnElem = addToCartBtnRef.current as HTMLButtonElement;
 
   const productId = Number(useParams().id);
 
@@ -26,54 +27,20 @@ function ProductPage(): JSX.Element {
     return <LoadingScreen />;
   }
 
-  const productInStorage = JSON.parse(localStorage.getItem(String(product.id)) as string) as Product;
-
-  const cartQuantityDisplayElem = document.querySelector('.basket-items-quantity') as HTMLSpanElement;
-  const itemAddedInfoDisplayElem = document.querySelector('.item__added-info') as HTMLParagraphElement;
-
-  const updateQuantityDisplayInfo = (updatedItem: Product, cartQuantity: number) => {
-    cartQuantityDisplayElem.textContent = String(Number(cartQuantity) + 1);
-    itemAddedInfoDisplayElem.textContent = `Добавлено: ${ updatedItem.quantityInCart ?? 1 } шт.`;
-    if (Number(cartQuantityDisplayElem.textContent) === 1) {
-      cartQuantityDisplayElem.classList.remove('hidden');
-    }
-  };
-
-  const flicker = (btn: HTMLButtonElement, updatedItem: Product, cartQuantity: number) => {
+  const flicker = (btn: HTMLButtonElement) => {
     const flickerEl = document.createElement('div');
     flickerEl.className = 'flicker';
     btn.appendChild(flickerEl);
     setTimeout(() => {
       flickerEl.remove();
-      updateQuantityDisplayInfo(updatedItem, cartQuantity);
     }, 850);
   };
 
-  const addToCartBtnClickHandler = () => {
-    const itemInCart = localStorage.getItem(String(product.id));
-    const cartQuantity = Number(localStorage.getItem('cart-quantity'));
-
-    if (addToCartBtnElem) {
-
-      if (itemInCart) {
-        const itemObj = JSON.parse(itemInCart) as Product;
-        const updatedItem = {
-          ...itemObj,
-          quantityInCart: itemObj.quantityInCart += 1
-        };
-        localStorage.setItem(String(product.id), JSON.stringify(updatedItem));
-        flicker(addToCartBtnElem, updatedItem, cartQuantity);
-      } else {
-        localStorage.setItem(String(product.id),
-          JSON.stringify({...product, quantityInCart: 1})
-        );
-
-        flicker(addToCartBtnElem, {...product, quantityInCart: 1}, cartQuantity);
-      }
-
-      localStorage.setItem('cart-quantity', String(cartQuantity + 1) ?? '1');
-    }
-
+  const handleAddToCartClick = () => {
+    flicker(addToCartBtnElem);
+    setTimeout(() => {
+      dispatch(addProductToCart(product));
+    }, 850);
   };
 
   return (
@@ -109,7 +76,7 @@ function ProductPage(): JSX.Element {
               <button
                 className="buy-button"
                 ref={addToCartBtnRef}
-                onClick={(addToCartBtnClickHandler)}
+                onClick={(handleAddToCartClick)}
               >
                 В корзину
               </button>
@@ -156,7 +123,7 @@ function ProductPage(): JSX.Element {
 
               </dl>
             </div>
-            <p className="item__added-info">{productInStorage ? `Добавлено: ${productInStorage.quantityInCart} шт.` : ''}</p>
+            <p className="item__added-info">{product.quantityInCart ? `Добавлено: ${product.quantityInCart} шт.` : ''}</p>
           </div>
 
         </div>
