@@ -5,6 +5,8 @@ export type VideocardsData = {
   videocards: {
     data: Products;
     isLoading: boolean;
+    currentSortType: string | null;
+    currentSortOrder: string | null;
   };
   videocard: {
     data: Product | null;

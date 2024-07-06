@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks';
+import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { setCurrentSortType, setCurrentSortOrder } from '../../../store/videocards-data/videocards-data';
 import useGetFilterParams from '../../../hooks/use-get-filters-params';
 import useGetSortSettings from '../../../hooks/use-get-sort-settings';
-import { getSortedProducts, getfilteredProducts } from '../../../store/videocards-data/selectors';
+import { getfilteredProducts } from '../../../store/videocards-data/selectors';
 import { PRODUCTS_PER_PAGE } from '../../../const';
 import SortForm from '../../sort/sort-form';
 import ProductCard from './product-card/product-card';
@@ -19,9 +20,16 @@ const EMPTY_PRODUCTS_LIST_MESSAGE = 'По вашему запросу ничег
 
 function MainProductList(): JSX.Element {
   const currentFilters = useGetFilterParams();
+  const filteredProducts = useAppSelector(getfilteredProducts)(currentFilters, true);
+
   const currentSortSettings = useGetSortSettings();
-  const sortedProducts = useAppSelector(getSortedProducts)(currentSortSettings);
-  const filteredProducts = useAppSelector(getfilteredProducts)(sortedProducts, currentFilters, false);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setCurrentSortType(currentSortSettings.type));
+    dispatch(setCurrentSortOrder(currentSortSettings.order));
+  }, [currentSortSettings.type, currentSortSettings.order, dispatch]);
 
   const page = Number(useParams().page);
   const currentPage = page ? page : 1;

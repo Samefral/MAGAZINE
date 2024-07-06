@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { fetchProductsAction, fetchProductByIdAction } from '../api-actions';
 import { VideocardsData } from '../../types/state';
@@ -7,7 +7,9 @@ import { VideocardsData } from '../../types/state';
 export const initialState: VideocardsData = {
   videocards: {
     data: [],
-    isLoading: false
+    isLoading: false,
+    currentSortType: null,
+    currentSortOrder: null,
   },
   videocard: {
     data: null,
@@ -18,7 +20,14 @@ export const initialState: VideocardsData = {
 export const videocardsData = createSlice({
   name: NameSpace.VideocardsData,
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentSortType: (state, action: PayloadAction<string>) => {
+      state.videocards.currentSortType = action.payload;
+    },
+    setCurrentSortOrder: (state, action: PayloadAction<string>) => {
+      state.videocards.currentSortOrder = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProductsAction.pending, (state) => {
@@ -41,3 +50,4 @@ export const videocardsData = createSlice({
   }
 });
 
+export const { setCurrentSortType, setCurrentSortOrder } = videocardsData.actions;
