@@ -71,10 +71,10 @@ export const getfilteredProducts = createSelector(
 
     if (priceFilter) {
       if (minPrice) {
-        filteredProducts = filteredProducts.filter((product) => product.price >= minPrice);
+        filteredProducts = filteredProducts.filter((product) => product.price - product.discount >= minPrice);
       }
       if (maxPrice) {
-        filteredProducts = filteredProducts.filter((product) => product.price <= maxPrice);
+        filteredProducts = filteredProducts.filter((product) => product.price - product.discount <= maxPrice);
       }
     }
 

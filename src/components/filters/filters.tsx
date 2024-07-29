@@ -48,7 +48,7 @@ function Filters(): JSX.Element {
   return (
     <form action="#" className="catalog-filter">
       <h2 className="visually-hidden">Фильтр</h2>
-      <PriceFilter />
+      <PriceFilter currentFilters={currentFilters}/>
       <fieldset className="catalog-filter__block">
         <legend className="title title--h4">Модель</legend>
         <div className="custom-checkbox catalog-filter__item">

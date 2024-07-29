@@ -1,79 +1,50 @@
 import { useRef } from 'react';
-// import { useAppSelector } from '../../../hooks';
-// import { getProducts } from '../../../store/videocards-data/selectors';
-// import { Product } from '../../../types/product';
+import { useAppSelector } from '../../../hooks';
+import { getProducts } from '../../../store/videocards-data/selectors';
+import { ProductsFilters } from '../../../const';
+import { Product } from '../../../types/product';
+import { ProductsFiltersParams } from '../../../types/products-filters';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function PriceFilter(): JSX.Element {
+type PriceFilterProps = {
+  currentFilters: ProductsFiltersParams;
+}
+
+function PriceFilter({currentFilters}: PriceFilterProps): JSX.Element {
   const minPriceInputRef = useRef<HTMLInputElement>(null);
-  //const minPriceInputElement = minPriceInputRef.current as HTMLInputElement;
+  const minPriceInputElement = minPriceInputRef.current as HTMLInputElement;
   const maxPriceInputRef = useRef<HTMLInputElement>(null);
-  //const maxPriceInputElement = maxPriceInputRef.current as HTMLInputElement;
+  const maxPriceInputElement = maxPriceInputRef.current as HTMLInputElement;
 
-  // const navigate = useNavigate();
-  // const location = useLocation();
+  if (minPriceInputElement && maxPriceInputElement) {
+    minPriceInputElement.value = minPriceInputElement.value === '0' ? '' : String(currentFilters.minPrice);
+    maxPriceInputElement.value = maxPriceInputElement.value === '0' ? '' : String(currentFilters.maxPrice);
+  }
 
-  // const searchParams = new URLSearchParams(location.search);
-  // const currentFilters = useGetFilterParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // const filteredCameras = useAppSelector(getProducts);
-  // const prices = filteredCameras.map((product: Product) => product.price);
-  // const maxPossiblePrice = Math.max(...prices);
-  // const minPossiblePrice = Math.min(...prices);
+  const searchParams = new URLSearchParams(location.search);
 
-  // const onPriceInput = (evt: React.FormEvent<HTMLInputElement>, filterName: string) => {
-  //   const valueInString = evt.currentTarget.value;
-  //   const valueInNumber = Number(evt.currentTarget.value);
+  const filteredCameras = useAppSelector(getProducts);
+  const prices = filteredCameras.map((product: Product) => product.price);
+  const maxPossiblePrice = Math.max(...prices);
+  const minPossiblePrice = Math.min(...prices);
 
-  //   if (valueInNumber <= 0 || valueInString === '-') {
-  //     evt.currentTarget.value = '';
-  //     searchParams.delete(filterName);
-  //     navigate(`${location.pathname}?${searchParams.toString()}`);
-  //     return;
-  //   }
+  const onPriceInput = (evt: React.FormEvent<HTMLInputElement>, filterName: string) => {
+    const valueInString = evt.currentTarget.value;
+    const valueInNumber = Number(evt.currentTarget.value);
 
-  //   if (valueInNumber < minPossiblePrice) {
-  //     return;
-  //   }
+    if (valueInNumber <= 0 || valueInString === '-') {
+      evt.currentTarget.value = '';
+      searchParams.delete(filterName);
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+      return;
+    }
 
-  //   if (filterName === CamerasFilters.Price.maxParamName && valueInNumber < currentFilters.minPrice) {
-  //     return;
-  //   }
-
-  //   searchParams.set(filterName, evt.currentTarget.value);
-  //   navigate(`${location.pathname}?${searchParams.toString()}`);
-  // };
-
-  // const handleMinPriceBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
-  //   if (Number(evt.target.value) > 0) {
-  //     if (Number(evt.target.value) < minPossiblePrice) {
-  //       evt.target.value = String(minPossiblePrice);
-  //       searchParams.set(CamerasFilters.Price.minParamName, String(minPossiblePrice));
-  //     }
-  //     if (currentFilters.maxPrice && Number(maxPriceInputElement.value) < Number(evt.target.value)) {
-  //       maxPriceInputElement.value = evt.target.value;
-  //       searchParams.set(CamerasFilters.Price.maxParamName, maxPriceInputElement.value);
-  //     }
-  //     navigate(`${location.pathname}?${searchParams.toString()}`);
-  //   }
-  // };
-
-  // const handleMaxPriceBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
-  //   if (Number(evt.target.value) > 0) {
-  //     if (Number(evt.currentTarget.value) < currentFilters.minPrice) {
-  //       evt.target.value = String(currentFilters.minPrice);
-  //       searchParams.set(CamerasFilters.Price.maxParamName, String(currentFilters.minPrice));
-  //     }
-  //     if (currentFilters.maxPrice > maxPossiblePrice) {
-  //       evt.target.value = String(maxPossiblePrice);
-  //       searchParams.set(CamerasFilters.Price.maxParamName, String(maxPossiblePrice));
-  //     }
-  //     navigate(`${location.pathname}?${searchParams.toString()}`);
-  //   }
-
-  // };
-
-  // const handleMinPriceWheel = () => minPriceInputElement.blur();
-  // const handleMaxPriceWheel = () => maxPriceInputElement.blur();
+    searchParams.set(filterName, evt.currentTarget.value);
+    navigate(`${location.pathname}?${searchParams.toString()}`);
+  };
 
   return (
     <fieldset className="catalog-filter__block">
@@ -85,10 +56,8 @@ function PriceFilter(): JSX.Element {
               type="number"
               name="price"
               ref={minPriceInputRef}
-              // placeholder={!isFinite(minPossiblePrice) ? 'от' : `${minPossiblePrice}`}
-              // onInput={(evt) => onPriceInput(evt, CamerasFilters.Price.minParamName)}
-              // onBlur={handleMinPriceBlur}
-              // onWheel={handleMinPriceWheel}
+              placeholder={!isFinite(minPossiblePrice) ? 'от' : `${minPossiblePrice}`}
+              onInput={(evt) => onPriceInput(evt, ProductsFilters.Price.minParamName)}
             />
           </label>
         </div>
@@ -98,10 +67,8 @@ function PriceFilter(): JSX.Element {
               type="number"
               name="priceUp"
               ref={maxPriceInputRef}
-              // placeholder={!isFinite(maxPossiblePrice) ? 'до' : `${maxPossiblePrice}`}
-              // onInput={(evt) => onPriceInput(evt, CamerasFilters.Price.maxParamName)}
-              // onBlur={handleMaxPriceBlur}
-              // onWheel={handleMaxPriceWheel}
+              placeholder={!isFinite(maxPossiblePrice) ? 'до' : `${maxPossiblePrice}`}
+              onInput={(evt) => onPriceInput(evt, ProductsFilters.Price.maxParamName)}
             />
           </label>
         </div>
