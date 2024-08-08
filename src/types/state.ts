@@ -1,5 +1,5 @@
-import { store } from '../store/index.js';
 import { Product, Products } from './product.js';
+import store from '../store/index.js';
 
 export type VideocardsData = {
   videocards: {
